@@ -72,6 +72,7 @@ html
             $scope.instance = ''
           .finally ->
             $scope.loading = false
+            $focus 'name'
         $scope.name = ''
         $scope.kind = $scope.kind_options[0].value
         $scope.clear()

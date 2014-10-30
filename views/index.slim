@@ -1,0 +1,78 @@
+doctype html
+html
+  head
+    meta http-equiv="X-UA-Compatible" content="IE=edge"
+    meta charset="utf-8"
+    meta content="telephone=no" name="format-detection"
+    meta content="width=device-width" name="viewport"
+    link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap/3.3.0/css/bootstrap.min.css"
+    link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"
+    sass:
+      [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak
+        display: none !important
+      .clickable
+        cursor: pointer
+      .narrow.container
+        max-width: 540px
+    title What instance am I using?
+  body ng-app="app"
+    .container.narrow ng-controller="whatinstanceamiusing_controller" ng-cloak=true
+      h1 What instance am I using?
+      h3 My Domain Lookup
+      form ng-submit="find()"
+        .form-group
+          input.form-control autofocus=true pt-focus=true ng-model="name" placeholder="Enter Custom Domain..." ng-change="update_domain_fulfilled()"
+        .form-group
+          select.form-control ng-model="kind" ng-options="kind.value as kind.label for kind in kind_options" ng-disabled="domain_fulfilled"
+        .form-group
+          button.btn.btn-default ng-disabled="!name" Find
+      p.lead ng-show="loading"
+        i.fa.fa-circle-o-notch.fa-spin
+      p.lead ng-show="!loading && query && instance"
+        | <strong ng-bind="query"></strong> is on <strong ng-bind="instance"></strong>.
+        a.clickable< ng-click="clear()" Clear
+      p.lead ng-show="!loading && query && !instance"
+        | No instance was fond for <strong ng-bind="query"></strong>.
+        a.clickable< ng-click="clear()" Clear
+    script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular.min.js"
+    coffee:
+      angular.module 'app', []
+      .directive 'ptFocus', ->
+        restrict: 'A'
+        require: 'ngModel'
+        link: (scope, element, attr) ->
+          scope.$on 'ptFocus', (e, name) ->
+            element[0].focus() if name is attr.ngModel
+      .factory '$focus', ($rootScope, $timeout) ->
+        (name) ->
+          $timeout ->
+            $rootScope.$broadcast 'ptFocus', name
+      .controller 'whatinstanceamiusing_controller', ($scope, $http, $focus) ->
+        $scope.kind_options = [
+          {label: 'My Domain', value: 'my_domain', regex: /[^\.]\.my\.salesforce\.com$/}
+          {label: 'Community', value: 'community', regex: /[^\.]\.force\.com$/}
+          {label: 'Generic', value: 'generic', regex: /[^\.]\.salesforce\.com$/}
+        ]
+        $scope.update_domain_fulfilled = () ->
+          [kind] = $scope.kind_options.filter (e) -> e.regex.test $scope.name
+          $scope.kind = kind.value if kind?
+          $scope.domain_fulfilled = kind?
+        $scope.clear = () ->
+          $scope.name = ''
+          $scope.query = ''
+          $scope.instance = ''
+          $focus 'name'
+        $scope.find = () ->
+          $scope.loading = true
+          $scope.query = $scope.name
+          $http.get "/api/#{$scope.kind}/#{$scope.query}"
+          .success (instance) ->
+            $scope.instance = instance
+          .error ->
+            $scope.instance = ''
+          .finally ->
+            $scope.loading = false
+        $scope.name = ''
+        $scope.kind = $scope.kind_options[0].value
+        $scope.clear()
+        $scope.update_domain_fulfilled()

@@ -25,7 +25,7 @@ html
         .form-group
           select.form-control ng-model="kind" ng-options="kind.value as kind.label for kind in kind_options" ng-disabled="domain_fulfilled"
         .form-group
-          button.btn.btn-default ng-disabled="!name" Find
+          button.btn.btn-default ng-disabled="!name || loading" Find
       p.lead ng-show="loading"
         i.fa.fa-circle-o-notch.fa-spin
       p.lead ng-show="!loading && query && instance"

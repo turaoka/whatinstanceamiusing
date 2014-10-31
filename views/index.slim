@@ -16,11 +16,17 @@ html
         cursor: pointer
       .narrow.container
         max-width: 540px
+      h1
+        font-size: 30px
+        margin: 20px 0 10px 0
+      h2
+        font-size: 24px
+        margin: 20px 0 10px 0
     title What instance am I using?
   body ng-app="app"
     .container.narrow ng-controller="whatinstanceamiusing_controller" ng-cloak=true
       h1 What instance am I using?
-      h3 My Domain Lookup
+      h2 My Domain Lookup
       form ng-submit="find()"
         .form-group
           input.form-control autofocus=true pt-focus=true ng-model="name" placeholder="Enter Custom Domain..." ng-change="update_domain_fulfilled()"

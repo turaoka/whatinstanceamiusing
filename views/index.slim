@@ -7,6 +7,7 @@ html
     meta content="width=device-width" name="viewport"
     link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap/3.3.0/css/bootstrap.min.css"
     link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"
+    link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.1.1/gh-fork-ribbon.min.css"
     sass:
       [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak
         display: none !important
@@ -22,8 +23,11 @@ html
       h2
         font-size: 24px
         margin: 20px 0 10px 0
+      .github-fork-ribbon
+        background-color: #333
     title What instance am I using?
   body ng-app="app"
+    .github-fork-ribbon-wrapper.right-bottom: .github-fork-ribbon: a href="https://github.com/turaoka/whatinstanceamiusing" Fork me on GitHub
     .container.narrow ng-controller="whatinstanceamiusing_controller" ng-cloak=true
       h1 What instance am I using?
       h2 My Domain Lookup

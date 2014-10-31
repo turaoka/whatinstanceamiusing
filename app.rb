@@ -22,12 +22,12 @@ get '/' do
 end
 
 get '/api/my_domain/:name' do |name|
-  name = "#{name}.my.salesforce.com" unless name.match %r{.my.salesforce.com\Z}
+  name = "#{name}.my.salesforce.com" unless name.match /\.my\.salesforce\.com\Z/
   instance_name name
 end
 
 get '/api/community/:name' do |name|
-  name = "#{name}.force.com" unless name.match %r{.force.com\Z}
+  name = "#{name}.force.com" unless name.match /\.force\.com\Z/
   instance_name name
 end
 

@@ -57,8 +57,7 @@ html
             element[0].focus() if name is attr.ngModel
       .factory '$focus', ($rootScope, $timeout) ->
         (name) ->
-          $timeout ->
-            $rootScope.$broadcast 'ptFocus', name
+          $rootScope.$broadcast 'ptFocus', name
       .controller 'whatinstanceamiusing_controller', ($scope, $http, $focus) ->
         $scope.kind_options = [
           {label: 'My Domain', value: 'my_domain', regex: /[^\.]\.my\.salesforce\.com$/}

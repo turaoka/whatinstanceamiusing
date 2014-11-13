@@ -74,6 +74,7 @@ html
           $scope.instance = ''
           $focus 'name'
         $scope.find = () ->
+          return if $scope.loading
           $scope.loading = true
           $scope.query = $scope.name
           $http.get "/api/#{$scope.kind}/#{$scope.query}"
